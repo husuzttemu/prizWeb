@@ -1,0 +1,15 @@
+db.createCollection( "categories", {
+   validator: { $jsonSchema: {
+      bsonType: "object",
+      required: [ "categoryName" ],
+      properties: {
+         categoryName: {
+            bsonType: "string",
+            description: "must be a string and is required"
+         }
+      }
+   } }
+} )
+
+
+db.categories.createIndex( { "categoryName": 1 }, { unique: true } )

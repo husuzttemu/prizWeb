@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- <a href="{{url_for('create')}} ">Scrap sanalmarket</a> -->
+<h1>Welcome to the Sanal Market price fluctuation!</h1>
+
+<div id="content-wrapper">
+
+        <div class="container-fluid">
+
+          <!-- Breadcrumbs-->
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">Tables</li>
+          </ol>
+
+          <!-- DataTables Example -->
+          <div class="card mb-3">
+            <div class="card-header">
+              <i class="fas fa-table"></i>
+              Data Table Example</div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>Barcode</th>
+                      <th>Name</th>
+                      <th>Price</th>
+                      <th>Create Date</th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th>Barcode</th>
+                      <th>Name</th>
+                      <th>Price</th>
+                      <th>Create Date</th>
+                    </tr>
+                  </tfoot>
+                  <tbody>
+				  {% for product in productlist %}
+                    <tr>
+                       <td>{{ product['barcode'] }}</td>
+					   <td>{{ product['name'] }}</td>
+					   <td>{{ product['price'] }}
+                         <span class="simge-tl">&#8378;</span>
+                       </td>
+					   <td>{{ product['insertDatetime'].strftime("%c") }}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+          </div>
+
+          <p class="small text-center text-muted my-5">
+            <em>More market examples coming soon...</em>
+          </p>
+
+        </div>
+        <!-- /.container-fluid -->
+
+        <!-- Sticky Footer -->
+        <footer class="sticky-footer">
+          <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+              <span>Copyright © Priz Development Team 2018</span>
+            </div>
+          </div>
+        </footer>
+
+      </div>
+      <!-- /.content-wrapper -->
+
+<script>
+var pickedup;
+
+  $(document).ready(function() {
+    $( "#sourcetable tbody tr" ).on( "click", function( event ) {
+
+          // get back to where it was before if it was selected :
+          if (pickedup != null) {
+              pickedup.css( "background-color", "#ffccff" );
+          }
+
+          $("#fillname").val($(this).find("td").eq(1).html());
+          $( this ).css( "background-color", "red" );
+
+          pickedup = $( this );
+    });
+});
+</script>
+
+{% endblock%}
