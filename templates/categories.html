@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- <a href="{{url_for('create')}} ">Scrap sanalmarket</a> -->
+
+
+<div id="content-wrapper">
+
+        <div class="container-fluid">
+
+          <!-- Breadcrumbs-->
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">Tables</li>
+          </ol>
+
+          <!-- DataTables Example -->
+          <div class="card mb-3">
+            <div class="card-header">
+              <i class="fas fa-table"></i>
+              Categories</div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered  table-hover" id="dataTable" width="100%" cellspacing="0">
+                  <thead class="thead-light">
+                    <tr>
+                      <th>CategoryName</th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th>categoryName</th>
+                    </tr>
+                  </tfoot>
+                  <tbody>
+				  {% for category in categoryList %}
+                    <tr>
+                       <td>{{ category['categoryName'] }}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+          </div>
+
+          <p class="small text-center text-muted my-5">
+            <em>More markets coming soon...</em>
+          </p>
+
+        </div>
+        <!-- /.container-fluid -->
+
+        <!-- Sticky Footer -->
+        <footer class="sticky-footer">
+          <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+              <span>Copyright © Priz Development Team 2018</span>
+            </div>
+          </div>
+        </footer>
+
+      </div>
+      <!-- /.content-wrapper -->
+
+<script>
+var pickedup;
+
+  $(document).ready(function() {
+    $( "#sourcetable tbody tr" ).on( "click", function( event ) {
+
+          // get back to where it was before if it was selected :
+          if (pickedup != null) {
+              pickedup.css( "background-color", "#ffccff" );
+          }
+
+          $("#fillname").val($(this).find("td").eq(1).html());
+          $( this ).css( "background-color", "red" );
+
+          pickedup = $( this );
+    });
+});
+</script>
+
+{% endblock%}

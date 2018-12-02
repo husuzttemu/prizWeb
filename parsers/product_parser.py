@@ -1,8 +1,8 @@
 from locators.page_locators import PageLocators
-from pymongo import MongoClient
 import datetime
-from pymongo.errors import ConnectionFailure
 from parsers.category import Category
+from dbconnection.dbconnection import MongoDbConnection
+from pymongo.errors import ConnectionFailure,DuplicateKeyError
 
 class ProductParser:
     '''
@@ -26,11 +26,19 @@ class ProductParser:
     def setProduct(self):
         self.product['barcode']=self.productBarcode
         self.product['name']=self.productName
-        self.product['price']=self.productPrice
-        self.product['promotionPrice'] = self.productPromotionPrice
         self.product['categoryName'] = self.productCategoryName
-        self.product['productUnit'] =self.productUnit
-        self.product['insertDatetime']=datetime.datetime.now()
+        now = datetime.datetime.now()
+        self.product['lastPrice'] = self.productPrice
+        self.product['lastModifiedTime'] = now
+
+        prices = []
+        prices.append({"price":self.productPrice,
+                  "promotionPrice":self.productPromotionPrice,
+                  "productUnit" : self.productUnit,
+                  "insertDatetime":now})
+
+        self.product['prices']=prices
+
 
     @property
     def getProduct(self):
@@ -87,21 +95,48 @@ class ProductParser:
         return promotionPrice
 
     def _insert_data(self):
-        try:
-            client = MongoClient('localhost', 27017)
-            db = client.sanalmarket
-            db.productlist.insert_one(self.product)
-        except ConnectionFailure:
-            print("Server is not available")
+        with MongoDbConnection('localhost',27017) as connection:
+            db = connection.sanalmarket
+            try:
+                print(f"product : {self.product}")
+                db.productlist.insert_one(self.product)
+            except DuplicateKeyError:
+                print(f"barkod : {self.product['barcode']}")
+                print(f"prices : {self.product['prices']}")
+                db.productlist.update_one(
+                    {"barcode": self.product['barcode']},
+                    {"$set": {
+                        "lastrice":self.productPrice,
+                        "lastModifiedTime": self.product['lastModifiedTime']
+                    },
+                        "$push":{
+                            "prices": {
+                                "price": self.productPrice,
+                                "promotionPrice": self.productPromotionPrice,
+                                "productUnit": self.productUnit,
+                                "insertDatetime": self.product['lastModifiedTime']
+                            }
+                        }
+                    }
+                )
 
-        try:
+
+
             category = {}
             category['categoryName'] = self.productCategoryName
             Category._insert_data(db, category)
+
+
+
+"""
+        try:
+            category = {}
+            category['categoryName'] = self.productCategoryName
+            Category._insert_data(connection, category)
         except:
             pass
 
-
+"""
 
 
 
