@@ -85,7 +85,7 @@ class ProductParser:
     @property
     def productCategoryName(self):
         text = self.parent.select_one(PageLocators.PRODUCTMONITOR)
-        categoryName = text.attrs['data-monitor-category']
+        categoryName = str.replace(str.replace(text.attrs['data-monitor-category'],"/","--"),"/","--")
         return categoryName
 
     @property

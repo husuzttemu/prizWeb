@@ -28,17 +28,22 @@
                   <thead class="thead-light">
                     <tr>
                       <th>CategoryName</th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
                       <th>categoryName</th>
+                      <th></th>
                     </tr>
                   </tfoot>
                   <tbody>
 				  {% for category in categoryList %}
                     <tr>
                        <td>{{ category['categoryName'] }}</td>
+                      <td>
+                        <input type="submit" class="btn btn-danger"  value="Products" name="category" onclick="location.href='/products/{{category['categoryName']}}';">
+                      </td>
                     </tr>
                     {% endfor %}
                   </tbody>

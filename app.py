@@ -34,11 +34,23 @@ def categories():
                            categoryList=categoryList)
 
 #127.0.0.1:5000/post/create?title=...&content=...
-@app.route('/products', methods=['GET'])
-def products():
+@app.route('/products/<categoryName>', methods=['GET'])
+def products(categoryName):
+    print(categoryName)
+    if categoryName:
+        productlist = mongo.db.productlist.find({"categoryName": categoryName}).limit(20000)
+    else:
+        productlist = mongo.db.productlist.find().limit(20000)
+    return render_template("products.html",
+                           productlist=productlist)
+
+@app.route('/allproducts/', methods=['GET'])
+def allproducts():
     productlist = mongo.db.productlist.find().limit(20000)
     return render_template("products.html",
                            productlist=productlist)
+
+
 
 #127.0.0.1:5000/post/create?title=...&content=...
 @app.route('/create', methods=['GET','POST'])
@@ -52,9 +64,9 @@ def create():
         return redirect(url_for('home'))
     return render_template('create.html')
 
-@app.route('/chart', methods=['GET'])
-def chart():
-    productlist = mongo.db.productlist.find({"barcode":"20000027023000"})
+@app.route('/chart/<barcodeParam>', methods=['GET'])
+def chart(barcodeParam):
+    productlist = mongo.db.productlist.find({"barcode":barcodeParam})
 
 
     for product in productlist:
@@ -84,9 +96,9 @@ def chart():
 
 
 
-@app.route('/linechart', methods=['GET'])
-def linechart():
-    productlist = mongo.db.productlist.find({"barcode": "20000027023000"})
+@app.route('/linechart/<barcodeParam>', methods=['GET'])
+def linechart(barcodeParam):
+    productlist = mongo.db.productlist.find({"barcode": barcodeParam})
 
     for product in productlist:
         barcode = product["barcode"]
