@@ -96,7 +96,7 @@ class ProductParser:
             promotionPrice = '0'
         else:
             text = self.parent.select_one(PageLocators.PROMOTIONPRICE)
-            promotionPrice = text.string.strip()
+            promotionPrice = str.replace(text.string.strip(),' TL','')
         return promotionPrice
 
     def _insert_data(self):
