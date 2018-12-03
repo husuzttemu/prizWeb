@@ -29,6 +29,7 @@ class ProductParser:
         self.product['categoryName'] = self.productCategoryName
         now = datetime.datetime.now()
         self.product['lastPrice'] = self.productPrice
+        self.product['PromoPrice'] = self.productPromotionPrice
         self.product['lastModifiedTime'] = now
 
         prices = []
@@ -110,7 +111,8 @@ class ProductParser:
                 db.productlist.update_one(
                     {"barcode": self.product['barcode']},
                     {"$set": {
-                        "lastrice":self.productPrice,
+                        "lastprice":self.productPrice,
+                        "Promoprice":self.productPromotionPrice,
                         "lastModifiedTime": self.product['lastModifiedTime']
                     },
                         "$push":{

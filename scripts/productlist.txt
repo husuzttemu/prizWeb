@@ -22,6 +22,10 @@ db.createCollection( "productlist",
                      bsonType:'string',
                      description:'must be a string and is required'
                             },
+         PromoPrice:{
+                     bsonType:'string',
+                     description:'must be a string and is required'
+                            },
          lastModifiedTime: {
             bsonType: "date"
          },

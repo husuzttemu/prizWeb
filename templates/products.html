@@ -30,6 +30,7 @@
                       <th>Barcode</th>
                       <th>Name</th>
                       <th>Price</th>
+                      <th>Before Promo Price</th>
                       <th>Last Modified Datetime</th>
                         <th></th>
                         <th></th>
@@ -40,6 +41,7 @@
                       <th>Barcode</th>
                       <th>Name</th>
                       <th>Price</th>
+                      <th>Before Promo Price</th>
                       <th>Last Modified Datetime</th>
                         <th></th>
                         <th></th>
@@ -51,6 +53,9 @@
                        <td>{{ product['barcode'] }}</td>
 					   <td>{{ product['name'] }}</td>
 					   <td>{{ product['lastPrice'] }}
+                         <span class="simge-tl">&#8378;</span>
+                       </td>
+					   <td>{{ product['PromoPrice'] }}
                          <span class="simge-tl">&#8378;</span>
                        </td>
 					   <td>{{ product['lastModifiedTime'].strftime("%d %m %Y %H:%M") }}</td>
