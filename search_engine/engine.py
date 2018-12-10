@@ -34,8 +34,10 @@ class Engine:
         return
 
     def find_product_list(self,page):
-
+        #print(f"111 : {page}")
         pagecontent = requests.get(page).content
+        #print(f"content : {pagecontent}")
+        #print("1222")
         try:
             simple_soup = BeautifulSoup(pagecontent, "html.parser")
         except:
@@ -58,7 +60,7 @@ class Engine:
 
         if page_list:
             for page in page_list:
-                print(f' ürün page  = https://www.sanalmarket.com.tr/arama{page}')
+                #print(f' ürün page  = https://www.sanalmarket.com.tr/arama{page}')
                 self.find_product_list(f'https://www.sanalmarket.com.tr/arama{page}')
 
     def find_products_from_all_categories(self):
@@ -92,6 +94,6 @@ class Engine:
             a = int(max(page_list))
             #print(f'link : {link} pagex5 : {a}')
             for page in range(1,max(page_list)+1):
-                #print(f' ürün page  = {link}?sayfa={findpage}')
+                #print(f' ürün page  = {link}?sayfa={page}')
                 self.find_product_list(f'{link}?sayfa={page}')
 

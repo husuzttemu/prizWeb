@@ -27,6 +27,10 @@ class ProductParser:
         self.product['barcode']=self.productBarcode
         self.product['name']=self.productName
         self.product['categoryName'] = self.productCategoryName
+
+        self.product["categories"] = self.productCategoryName.split("--")
+        self.product["categories"] = self.product["categories"][::-1]
+
         now = datetime.datetime.now()
         self.product['lastPrice'] = self.productPrice
         self.product['PromoPrice'] = self.productPromotionPrice
@@ -54,6 +58,7 @@ class ProductParser:
     @property
     def productName(self):
         text = self.parent.select_one(PageLocators.PRODUCTATTR)
+        #print(f"productname : {text}")
         name = text.attrs['data-product-name']
         return name
 
@@ -62,6 +67,7 @@ class ProductParser:
         #text = self.parent.select_one(PageLocators.PRODUCTATTR)
         #price = text.attrs['data-price']
         text = self.parent.select_one(PageLocators.PRODUCTMONITOR)
+        #print(f"productPrice : {text}")
         price = text.attrs['data-monitor-price']
         return price
 
@@ -103,17 +109,19 @@ class ProductParser:
         with MongoDbConnection('localhost',27017) as connection:
             db = connection.sanalmarket
             try:
-                print(f"product : {self.product}")
+                #print(f"product : {self.product}")
                 db.productlist.insert_one(self.product)
             except DuplicateKeyError:
-                print(f"barkod : {self.product['barcode']}")
-                print(f"prices : {self.product['prices']}")
+                #print(f"barkod : {self.product['barcode']}")
+                #print(f"prices : {self.product['prices']}")
                 db.productlist.update_one(
                     {"barcode": self.product['barcode']},
                     {"$set": {
-                        "lastprice":self.productPrice,
-                        "Promoprice":self.productPromotionPrice,
-                        "lastModifiedTime": self.product['lastModifiedTime']
+                        "lastPrice":self.productPrice,
+                        "promotionPrice":self.productPromotionPrice,
+                        "lastModifiedTime": self.product['lastModifiedTime'],
+                        "categoryName":self.product["categoryName"],
+                        "categories":self.product["categories"]
                     },
                         "$push":{
                             "prices": {
@@ -126,10 +134,10 @@ class ProductParser:
                     }
                 )
 
-
-
             category = {}
             category['categoryName'] = self.productCategoryName
+            category["categories"] = self.productCategoryName.split("--")
+            category["categories"] = category["categories"][::-1]
             Category._insert_data(db, category)
 
 

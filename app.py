@@ -5,6 +5,7 @@ import datetime
 import pygal
 
 from search_engine.engine import Engine
+from models.product import Product
 
 import json
 from urllib.request import urlopen
@@ -77,9 +78,19 @@ def chart(barcodeParam):
         #hus = [{"date":x["insertDatetime"],"price":float(str.replace(x["price"], ",", "."))} for x in product["prices"]]
         #print(hus)
 
-
-
     return render_template('graph.html', barcode=barcode,name=name,values=values, labels=labels)
+
+@app.route('/productreport', methods=['GET'])
+def productreport():
+    categories = mongo.db.categories.find({})
+    categoryList = set([x["categories"][0] for x in categories])
+    if request.method == 'GET':
+        return render_template('productreport.html', categories=categoryList)
+    else:
+        return render_template('productreport.html', categories=categoryList, productlist=productlist)
+
+
+
 """
     pipeline = [
         { "$match" : { "barcode":"20000027023000" } },
@@ -95,6 +106,12 @@ def chart(barcodeParam):
 """
 
 
+@app.route('/productlist/<categoryname>', methods=['GET'])
+def productlist(categoryname):
+    productlist = Product.get(categoryname)
+
+    return productlist
+    # categories = mongo.db.categories.find({})
 
 @app.route('/linechart/<barcodeParam>', methods=['GET'])
 def linechart(barcodeParam):

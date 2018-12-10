@@ -18,6 +18,13 @@ db.createCollection( "productlist",
          categoryName: {
             bsonType: "string"
          },
+         categories:{
+                    bsonType:'array',
+                    description:'must be an array and is required',
+                    items:{
+                        bsonType:'string'
+                    }
+                },
          lastPrice:{
                      bsonType:'string',
                      description:'must be a string and is required'
