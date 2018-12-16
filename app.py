@@ -80,37 +80,43 @@ def chart(barcodeParam):
 
     return render_template('graph.html', barcode=barcode,name=name,values=values, labels=labels)
 
-@app.route('/productreport', methods=['GET'])
+@app.route('/productreport', methods=['GET',"POST"])
 def productreport():
+    if request.method == 'POST':
+        # do stuff when the form is submitted
+
+        # redirect to end the POST handling
+        # the redirect can be to the same route or somewhere else
+
+        category = request.form.get('category')
+
+        startDate = request.form.get("startDatePicker")
+        endDate = request.form.get("endDatePicker")
+
+        #print(f" {startDatePicker}")
+
+        productlist = Product.get(category,startDate,endDate)
+
+        return render_template('queryproducts.html',productlist=productlist)
     categories = mongo.db.categories.find({})
     categoryList = set([x["categories"][0] for x in categories])
-    if request.method == 'GET':
-        return render_template('productreport.html', categories=categoryList)
-    else:
-        return render_template('productreport.html', categories=categoryList, productlist=productlist)
+
+    return render_template('productreport.html', categories=categoryList)
 
 
+@app.route('/queryproducts', methods=['GET'])
+def queryproducts():
 
-"""
-    pipeline = [
-        { "$match" : { "barcode":"20000027023000" } },
-        {"$group" : {"_id":{"barcode":"$barcode","price":"$price",
-                            "date": { "$dateToString": { "format": "%d-%m-%Y", "date": "$insertDatetime" } }
-                            }}}
-    ]
-    cursor1 =  mongo.db.productlist.aggregate(pipeline)
-    cursor2 = mongo.db.productlist.aggregate(pipeline)
-
-    labels = [x["_id"]["date"]  for x in cursor1]
-    values = [float(str.replace(x["_id"]["price"],",","."))  for x in cursor2]
-"""
-
+    #return render_template('productreport.html', productlist=productlist)
+    return render_template('queryproducts.html')
 
 @app.route('/productlist/<categoryname>', methods=['GET'])
 def productlist(categoryname):
-    productlist = Product.get(categoryname)
+    productlist = Product.get(categoryname,None,None)
 
-    return productlist
+    return render_template("products.html",
+                           productlist=productlist)
+    #return productlist
     # categories = mongo.db.categories.find({})
 
 @app.route('/linechart/<barcodeParam>', methods=['GET'])
