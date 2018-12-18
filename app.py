@@ -45,6 +45,7 @@ def products(categoryName):
     return render_template("products.html",
                            productlist=productlist)
 
+#test
 @app.route('/allproducts/', methods=['GET'])
 def allproducts():
     productlist = mongo.db.productlist.find().limit(20000)
