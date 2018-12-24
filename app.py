@@ -74,7 +74,7 @@ def chart(barcodeParam):
     for product in productlist:
         barcode = product["barcode"]
         name = product["name"]
-        labels = [x["insertDatetime"].strftime("%d %m %Y %H:%M") for x in product["prices"]]
+        labels = [x["insertDatetime"].strftime("%d %m %Y") for x in product["prices"]]
         values = [float(str.replace(x["price"], ",", ".")) for x in product["prices"]]
         #hus = [{"date":x["insertDatetime"],"price":float(str.replace(x["price"], ",", "."))} for x in product["prices"]]
         #print(hus)
@@ -123,14 +123,16 @@ def productlist(categoryname):
 @app.route('/linechart/<barcodeParam>', methods=['GET'])
 def linechart(barcodeParam):
     productlist = mongo.db.productlist.find({"barcode": barcodeParam})
+    maxprice = 10
 
     for product in productlist:
         barcode = product["barcode"]
         name = product["name"]
-        labels = [x["insertDatetime"].strftime("%d %m %Y %H:%M") for x in product["prices"]]
+        labels = [x["insertDatetime"].strftime("%d %m %Y") for x in product["prices"]]
         values = [float(str.replace(x["price"], ",", ".")) for x in product["prices"]]
+        if int(round(max(values),0)) > maxprice: maxprice = int(round(max(values),0)) + 1
 
-    return render_template('linechart.html', barcode=barcode, name=name, values=values, labels=labels)
+    return render_template('linechart.html', barcode=barcode, name=name, values=values, labels=labels, maxprice=maxprice)
 
 if __name__ == '__main__':
     app.run(debug=True)
