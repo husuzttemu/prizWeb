@@ -8,16 +8,16 @@
 
 
         <div class="col-md-12">
-            <h1>Priz Line Bar Graph</h1>
+            <h1>Çizgi Grafik</h1>
         </div>
 
 
         <div class="col-md-12">
-            <h3>Barcode : {{barcode}}</h3>
+            <h3>Barkod : {{barcode}}</h3>
         </div>
 
         <div class="col-md-12">
-            <h3>Product Name : {{name}}</h3>
+            <h3>Ürün Adı : {{name}}</h3>
         </div>
 
         <div class="col-md-12">
@@ -64,7 +64,7 @@
    var mychart = document.getElementById("chart").getContext("2d");
 
    steps = 10
-   max = 100
+   max = {{maxprice}}
    // draw bar chart
    var LineChartDemo = new Chart(mychart).Line(barData, {
         scaleOverride: true,

@@ -9,17 +9,17 @@
 
 
             <div class="form-group row col-md-12">
-                <label for="retailerName">Retailer Name</label>
+                <label for="retailerName">Perakendeci</label>
                 <select class="form-control" id="retailerName">
-                    <option selected>Choose...</option>
-                    <option>Sanal Market</option>
+                    <option selected>Seç...</option>
+                    <option>Migros Sanal Market</option>
                 </select>
             </div>
 
             <div class="form-group row col-md-12">
-                <label for="category" >Main Category</label>
+                <label for="category" >Ana Kategori</label>
                 <select class="form-control" name="category" id="category">
-                    <option selected>Choose...</option>
+                    <option selected>Seç...</option>
                     {% for category in categories %}
                     <option>{{ category }}</option>
                     {% endfor %}
@@ -27,7 +27,7 @@
             </div>
 
             <div class="form-group row col-md-6">
-                <label for="startDatePicker">Start Date</label>
+                <label for="startDatePicker">Başlangıç Tarihi</label>
                 <div class="input-group date form_date col-md-5"
                      data-date="" data-date-format="dd MM yyyy" data-link-field="startDatePicker" data-link-format="yyyy-mm-dd">
                     <input class="form-control" size="16" type="text" value="" readonly>
@@ -38,7 +38,7 @@
             </div>
 
              <div class="form-group row col-md-6">
-                <label for="endDatePicker">End Date</label>
+                <label for="endDatePicker">Bitiş Tarihi</label>
                 <div class="input-group date form_date col-md-5"
                      data-date="" data-date-format="dd MM yyyy" data-link-field="endDatePicker" data-link-format="yyyy-mm-dd">
                     <input class="form-control" size="16" type="text" value="" readonly>
@@ -51,7 +51,7 @@
 
 
             <div class="col-auto row col-md-12">
-                <button type="submit" class="btn btn-primary mb-2" >Query</button>
+                <button type="submit" class="btn btn-primary mb-2" >Sorgula</button>
             </div>
 
         </div>

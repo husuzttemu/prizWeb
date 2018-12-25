@@ -12,7 +12,7 @@
           <!-- Breadcrumbs-->
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
-              <a href="#">Dashboard</a>
+              <a href="#">Gösterge Paneli</a>
             </li>
             <li class="breadcrumb-item active">Tables</li>
           </ol>
@@ -21,29 +21,27 @@
           <div class="card mb-3">
             <div class="card-header">
               <i class="fas fa-table"></i>
-              Products</div>
+              Ürünler</div>
             <div class="card-body">
               <div class="table-responsive">
                 <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
                   <thead class="thead-light">
                     <tr>
-                      <th>Barcode</th>
-                      <th>Name</th>
-                      <th>Price</th>
-                      <th>Before Promo Price</th>
-                      <th>Last Modified Datetime</th>
-                        <th></th>
+                      <th>Barkod</th>
+                      <th>Ürün Adı</th>
+                      <th>Fiyat</th>
+                      <th>Promosyon Öncesi Fiyatı</th>
+                      <th>Son Değişiklik Tarihi</th>
                         <th></th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
-                      <th>Barcode</th>
-                      <th>Name</th>
-                      <th>Price</th>
-                      <th>Before Promo Price</th>
-                      <th>Last Modified Datetime</th>
-                        <th></th>
+                      <th>Barkod</th>
+                      <th>Ürün Adı</th>
+                      <th>Fiyat</th>
+                      <th>Promosyon Öncesi Fiyatı</th>
+                      <th>Son Değişiklik Tarihi</th>
                         <th></th>
                     </tr>
                   </tfoot>
@@ -60,9 +58,6 @@
                        </td>
 					   <td>{{ product['lastModifiedTime'] }}</td>
                         <td>
-                            <input type="submit"  class="btn btn-success" value="Bar Chart" name="barchart" onclick="location.href='/chart/{{product['barcode']}}';">
-                        </td>
-                        <td>
                             <input type="submit" class="btn btn-danger"  value="Line Chart" name="linechart" onclick="location.href='/linechart/{{product['barcode']}}';">
                         </td>
 
@@ -76,7 +71,7 @@
           </div>
 
           <p class="small text-center text-muted my-5">
-            <em>More market examples coming soon...</em>
+            <em>iğer Marketler yakın zamanda burada...</em>
           </p>
 
         </div>
